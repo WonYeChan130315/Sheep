@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float walkSpeed;
 
-    private Vector2 mousePos;
+    private Vector3 mousePos;
     private Rigidbody2D rigid;
 
     private void Awake() {
@@ -22,4 +22,5 @@ public class Player : MonoBehaviour
             transform.Translate(Vector2.up * walkSpeed * Time.deltaTime);
         }
     }
+
 }
