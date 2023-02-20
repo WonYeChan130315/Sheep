@@ -10,12 +10,17 @@ public class Sheep : MonoBehaviour
     private enum dirType {forward, back, right, left}
     private Rigidbody2D rigid;
     private bool isRay;
+    private bool isReader = true;
+    private bool isRunning = true;
     
     private void Awake() {
         rigid = GetComponent<Rigidbody2D>();
     }
 
     private void Update() {
+        if(!isRunning)
+            return;
+
         if(name == "Reader") {
             if(Vector2.Distance(transform.position, SheepManager.Return("Player").transform.position) < 7)
                 Movement(SheepManager.Return("Player").transform, Direction(dirType.back));
@@ -27,15 +32,18 @@ public class Sheep : MonoBehaviour
                 sheep.Back();
             }
         } else {
-            if(Vector2.Distance(transform.position, SheepManager.Return("Reader").transform.position) > 1.2f && !isRay)
+            if(Vector2.Distance(transform.position, SheepManager.Return("Reader").transform.position) > 1.2f && !isRay && isReader)
                 Movement(SheepManager.Return("Reader").transform, Direction(dirType.forward));
 
-            if(Vector2.Distance(transform.position, SheepManager.Return("Player").transform.position) > 1.5f && !isRay)
+            if((Vector2.Distance(transform.position, SheepManager.Return("Player").transform.position) > 1.5f && !isRay) || !isReader)
                 Movement(SheepManager.Return("Player").transform, Direction(dirType.back));
         }
     }
 
     public IEnumerator Back() {
+        if(!isRunning)
+            yield return null;
+        
         Movement(SheepManager.Return("Reader").transform, Direction(dirType.left), 5);
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.left, 3f, LayerMask.GetMask("Sheep"));
@@ -43,7 +51,6 @@ public class Sheep : MonoBehaviour
             Movement(SheepManager.Return("Reader").transform, Direction(dirType.left), 5);
 
         hit.collider.gameObject.GetComponent<Sheep>().Back();
-        yield return null;
     }
 
     private void Movement(Transform target, int direction, float speed = 1) {
@@ -66,6 +73,18 @@ public class Sheep : MonoBehaviour
                 return 0;
             default:
                 return-90;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        if(other.CompareTag("Finish")) {
+            SheepManager.Finish();
+
+            rigid.isKinematic = true;
+            isRunning = false;
+
+            if(name == "Reader")
+                isReader = false;
         }
     }
 }

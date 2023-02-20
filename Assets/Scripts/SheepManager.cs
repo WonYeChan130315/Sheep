@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class SheepManager : MonoBehaviour
 {
+    public List<bool> finishList;
+
     public static SheepManager instance;
     public GameObject reader;
     public GameObject player;
+    public int finishCount;
     
     [SerializeField] private List<GameObject> sheepList;
 
@@ -18,9 +21,13 @@ public class SheepManager : MonoBehaviour
             if(i == rand) {
                 sheepList[i].name = "Reader";
                 sheepList[i].layer = 8;
-                sheepList[i].GetComponent<SpriteRenderer>().color = Color.green;
+                sheepList[i].GetComponent<SpriteRenderer>().color = Color.blue;
                 reader = sheepList[i];
             }
+        }
+
+        for(int j = 0; j < sheepList.Count; j++) {
+            finishList.Add(false);
         }
     }
 
@@ -33,5 +40,10 @@ public class SheepManager : MonoBehaviour
             default:
                 return null;
         }
+    }
+
+    public static void Finish() {
+        instance.finishList[instance.finishCount] = true;
+        instance.finishCount++;
     }
 }
