@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public float runMana;
     public float runSpeed;
     public float walkSpeed;
     public float slowSpeed;
@@ -16,9 +17,22 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private void Update() {
+        if(runMana < 2 && !Input.GetKey(KeyCode.LeftShift))
+            runMana += Time.deltaTime;
+
+        if(Input.GetKey(KeyCode.LeftShift) && runMana > 0) {
+            speed = runSpeed;
+            runMana -= Time.deltaTime;
+        } else if(Input.GetKey(KeyCode.LeftControl)) {
+            speed = slowSpeed;
+        } else {
+            speed = walkSpeed;
+        }
+    }
+
     private void FixedUpdate() {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        speed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : Input.GetKey(KeyCode.LeftControl) ? slowSpeed : walkSpeed;
 
         if(Input.GetMouseButton(0) && Vector2.Distance(transform.position, mousePos) > 0.6f) {
             Vector2 dirVec = mousePos - transform.position;
