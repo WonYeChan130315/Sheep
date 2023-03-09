@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Sheep : MonoBehaviour
@@ -66,7 +64,7 @@ public class Sheep : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if(other.gameObject.CompareTag("Fence")) {
+        if(other.gameObject.CompareTag("Fence") && name == "Reader") {
             SheepManager.Fail();
         }
     }
