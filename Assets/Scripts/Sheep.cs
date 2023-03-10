@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Sheep : MonoBehaviour
 {
+    public float speed;
     public float walkSpeed;
     public float maxDist_P;
     public float maxDist_RP;
@@ -10,7 +11,6 @@ public class Sheep : MonoBehaviour
     private Transform reader;
     private Transform player;
     private Rigidbody2D rb;
-    private bool finish;
 
     private void Start() {
         reader = GameObject.Find("Reader").transform;
@@ -20,12 +20,10 @@ public class Sheep : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        if(finish)
-            return;
-
         if(name == "Reader") {
             if(Vector2.Distance(transform.position, player.position) < maxDist_RP) {
                 Movement(player, false);
+                speed = player.GetComponent<Player>().speed - 1.5f;
             } else {
                 Movement(player, true, false);
             }
@@ -35,6 +33,7 @@ public class Sheep : MonoBehaviour
             } else if(Vector2.Distance(transform.position, reader.position) > miniDist_R) {
                 Movement(reader, true);
             }
+            speed = reader.GetComponent<Sheep>().speed;
         }
     }
 
@@ -57,9 +56,7 @@ public class Sheep : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("Finish")) {
             SheepManager.Finish();
-
-            rb.isKinematic = true;
-            finish = true;
+            Destroy(gameObject);
         }
     }
 

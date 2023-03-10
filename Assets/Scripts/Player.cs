@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public float speed;
     public float runMana;
     public float runSpeed;
     public float walkSpeed;
@@ -9,15 +10,15 @@ public class Player : MonoBehaviour
 
     private Vector3 mousePos;
     private Rigidbody2D rb;
-    private float speed;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update() {
-        if(runMana < 2 && !Input.GetKey(KeyCode.LeftShift))
+        if(runMana < 2 && !Input.GetKey(KeyCode.LeftShift)) {
             runMana += Time.deltaTime;
+        }
 
         if(Input.GetKey(KeyCode.LeftShift) && runMana > 0) {
             speed = runSpeed;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SheepManager : MonoBehaviour
 {
@@ -38,6 +39,7 @@ public class SheepManager : MonoBehaviour
 
     public static void Fail() {
         print("fail");
-        Time.timeScale = 0;
+        // Time.timeScale = 0;
+        SceneManager.LoadScene(0);
     }
 }
