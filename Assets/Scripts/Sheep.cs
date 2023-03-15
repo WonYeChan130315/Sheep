@@ -3,10 +3,8 @@ using UnityEngine;
 public class Sheep : MonoBehaviour
 {
     public float speed;
-    public float walkSpeed;
-    public float maxDist_P;
-    public float maxDist_RP;
-    public float miniDist_R;
+    public float maxPlayerDist;
+    public float miniReaderDist;
 
     private Transform reader;
     private Transform player;
@@ -21,16 +19,12 @@ public class Sheep : MonoBehaviour
 
     private void FixedUpdate() {
         if(name == "Reader") {
-            if(Vector2.Distance(transform.position, player.position) < maxDist_RP) {
                 Movement(player, false);
-                speed = player.GetComponent<Player>().speed - 1.5f;
-            } else {
-                Movement(player, true, false);
-            }
+                speed = player.GetComponent<Player>().speed - 3;
         } else {
-            if(Vector2.Distance(transform.position, player.position) < maxDist_P) {
+            if(Vector2.Distance(transform.position, player.position) < maxPlayerDist) {
                 Movement(player, false);
-            } else if(Vector2.Distance(transform.position, reader.position) > miniDist_R) {
+            } else if(Vector2.Distance(transform.position, reader.position) > miniReaderDist) {
                 Movement(reader, true);
             }
             speed = reader.GetComponent<Sheep>().speed;
@@ -42,7 +36,7 @@ public class Sheep : MonoBehaviour
         if(front) dirVec = target.position - transform.position;
         else dirVec = transform.position - target.position;
 
-        Vector2 nextVec = dirVec.normalized * walkSpeed * Time.fixedDeltaTime;
+        Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
 
         float angle = Mathf.Atan2(dirVec.y, dirVec.x) * Mathf.Rad2Deg;
         rb.SetRotation(Quaternion.AngleAxis(angle - 90, Vector3.forward));

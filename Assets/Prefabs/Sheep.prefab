@@ -172,7 +172,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 0
-  walkSpeed: 0
-  maxDist_P: 2.5
-  maxDist_RP: 7
-  miniDist_R: 1.4
+  maxPlayerDist: 3.5
+  miniReaderDist: 5.5

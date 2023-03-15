@@ -9,15 +9,21 @@ public class SheepManager : MonoBehaviour
     public List<GameObject> sheepList;
     public List<bool> finishList;
 
+    public Transform sheepGroup;
+    public GameObject sheep;
+    public int sheepCount;
     [HideInInspector] public int count;
 
     private void Awake() {
         instance = this;
-        SetReader();
-
-        for(int j = 0; j < sheepList.Count; j++) {
+        
+        for(int j = 0; j < sheepCount; j++) {
+            GameObject clone = Instantiate(sheep, sheepGroup);
+            sheepList.Add(clone);
             finishList.Add(false);
         }
+
+        SetReader();
     }
 
     private void SetReader() {
@@ -33,13 +39,12 @@ public class SheepManager : MonoBehaviour
             instance.SetReader();
         } else {
             print("success");
-            Time.timeScale = 0;
+            SceneManager.LoadScene(0);
         }
     }
 
     public static void Fail() {
         print("fail");
-        // Time.timeScale = 0;
         SceneManager.LoadScene(0);
     }
 }

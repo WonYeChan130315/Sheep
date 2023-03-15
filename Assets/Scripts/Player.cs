@@ -5,17 +5,14 @@ public class Player : MonoBehaviour
     public float speed;
     public float runMana;
     public float walkSpeed;
+    public float runSpeed;
+    public float slowSpeed;
 
     private Vector3 mousePos;
     private Rigidbody2D rb;
-    private float runSpeed;
-    private float slowSpeed;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
-        
-        runSpeed = walkSpeed + 2;
-        slowSpeed = walkSpeed - 2;
     }
 
     private void Update() {
