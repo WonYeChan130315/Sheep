@@ -1,12 +1,9 @@
 using UnityEngine;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
-    public float speed;
-    public float runMana;
     public float walkSpeed;
-    public float runSpeed;
-    public float slowSpeed;
 
     private Vector3 mousePos;
     private Rigidbody2D rb;
@@ -15,33 +12,30 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Update() {
-        if(runMana < 2 && !Input.GetKey(KeyCode.LeftShift)) {
-            runMana += Time.deltaTime;
-        }
-
-        if(Input.GetKey(KeyCode.LeftShift) && runMana > 0) {
-            speed = runSpeed;
-            runMana -= Time.deltaTime;
-        } else if(Input.GetKey(KeyCode.LeftControl)) {
-            speed = slowSpeed;
-        } else {
-            speed = walkSpeed;
-        }
+    private void Start() {
+        PosSet();
     }
 
     private void FixedUpdate() {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        
+        Movement();
+    }
 
+    private void Movement() {
         if(Input.GetMouseButton(0) && Vector2.Distance(transform.position, mousePos) > 0.6f) {
             Vector2 dirVec = mousePos - transform.position;
-            Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
+            Vector2 nextVec = dirVec.normalized * walkSpeed * Time.fixedDeltaTime;
 
             float angle = Mathf.Atan2(dirVec.y, dirVec.x) * Mathf.Rad2Deg;
-            rb.SetRotation(Quaternion.AngleAxis(angle - 90, Vector3.forward));
+            Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+            rb.SetRotation(Quaternion.Lerp(transform.rotation, rotation, 0.5f));
 
             rb.MovePosition(rb.position + nextVec);
-            rb.velocity = Vector2.zero;
         }
+    }
+
+    private void PosSet() {
+        transform.position = TileGenerator.instance.finish.transform.position;
     }
 }

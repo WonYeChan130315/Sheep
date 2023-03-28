@@ -1,40 +1,110 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class TileGenerator : MonoBehaviour
 {
-    public GameObject[] points;
+    public Transform[] points;
 
-    public Tilemap flowerTilemap;
-    public TileBase flower;
+    public static TileGenerator instance;
+
+    public Tilemap tilemap, fenceTilemap;
+    public TileBase flower, grass, fence;
     public GameObject finish;
+    public Transform pointGroup;
     public int width, height;
+    public int deleteWidth, deleteHeight;
 
     private int lastRand;
 
     private void Awake() {
+        instance = this;
+        TileSet();
+    }
+
+    public void TileSet() {
+        Delete();
+        GrassSet();
+        FenceSet();
         FlowerSet();
         FinishSet();
+        PointSet();
+    }
+
+    public void Delete() {
+        for (int y = -((deleteHeight / 2) + 1); y < ((deleteHeight / 2) + 1); y++) {
+            for (int x = -((deleteWidth / 2) + 1); x < ((deleteWidth / 2) + 1); x++) {
+                Vector3Int setPos = new Vector3Int(x, y);
+                tilemap.SetTile(setPos, null);
+                fenceTilemap.SetTile(setPos, null);
+            }
+        }
+    }
+
+    private void GrassSet() {
+        for (int y = -(height / 2); y < (height / 2); y++) {
+            for (int x = -(width / 2); x < (width / 2); x++) {
+                Vector3Int setPos = new Vector3Int(x, y);
+                tilemap.SetTile(setPos, grass);
+            }
+        }
+    }
+
+    private void FenceSet() {
+        for (int y = -((height / 2) + 1); y < ((height / 2) + 1); y++) {
+            for (int x = -((width / 2) + 1); x < ((width / 2) + 1); x++) {
+                Vector3Int setPos = new Vector3Int(x, y);
+                if(!tilemap.HasTile(setPos)) {
+                    fenceTilemap.SetTile(setPos, fence);
+                }
+            }
+        }
     }
 
     private void FlowerSet() {
-        int rond = Random.Range(3, 5);
+        for (int y = -(height / 2); y < (height / 2); y++) {
+            int doRand = Random.Range(0, 6);
 
-        for(int y = -((height / rond) - 1); y < ((height / rond) - 1); y++) {
-            int rand = Random.Range(-(width / 2), (width / 2));
-            rand = lastRand == rand ? Random.Range(-(width / 2), (width / 2)) : rand;
-            lastRand = rand;
+            if(doRand == 1) {
+                int rand = Random.Range(-(width / 2), (width / 2));
 
-            Vector3Int setPos = new Vector3Int(rand, y * rond);
-            flowerTilemap.SetTile(setPos, flower);
+                if(!(lastRand == rand || (lastRand-1) == rand || (lastRand+1) == rand)) {
+                    lastRand = rand;
+
+                    Vector3Int setPos = new Vector3Int(rand, y);
+                    tilemap.SetTile(setPos, flower);
+                } else {
+                    rand = Random.Range(0, width);
+                }
+            }
+        }
+    }
+
+    private void PointSet() {
+        for(int i = 0; i < points.Length; i++) {
+            string pointName = points[i].name;
+
+            Vector2 pos = new Vector3(width / 2, height / 2);
+            Vector2 finishScale = new Vector3(finish.transform.localScale.x / 2, finish.transform.localScale.y / 2);
+
+            float setPosX = 0;
+            float setPosY = 0;
+
+            char nameStart = pointName[0];
+            if(nameStart.ToString() == "R") setPosX += pos.x - finishScale.x;
+            else if(nameStart.ToString() == "L") setPosX -= pos.x - finishScale.x;
+
+            char nameEnd = pointName[1];
+            if(nameEnd.ToString() == "U") setPosY += pos.y - finishScale.y;
+            else if(nameEnd.ToString() == "D") setPosY -= pos.y - finishScale.y;
+
+            Vector3 setPos = new Vector3(setPosX, setPosY);
+            points[i].transform.position = setPos;
         }
     }
 
     private void FinishSet() {
         int rand = Random.Range(0, points.Length);
-        finish.transform.position = points[rand].transform.position;
-        points[rand].tag = "Finish";
+        finish.transform.position = points[rand].position;
     }
 }
+ 

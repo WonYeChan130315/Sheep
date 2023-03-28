@@ -11,6 +11,7 @@ public class SheepManager : MonoBehaviour
 
     public Transform sheepGroup;
     public GameObject sheep;
+    public GameObject reader;
     public int sheepCount;
     [HideInInspector] public int count;
 
@@ -27,24 +28,31 @@ public class SheepManager : MonoBehaviour
     }
 
     private void SetReader() {
-        int rand = Random.Range(count, sheepList.Count);
+        int rand = Random.Range(0, sheepList.Count);
         sheepList[rand].name = "Reader";
+        reader = sheepList[rand];
+        reader.GetComponent<Rigidbody2D>().mass = 10;
     }
 
-    public static void Finish() {
+    public static void Finish(GameObject gameObject) {
         instance.finishList[instance.count] = true;
         instance.count++;
+        
+        instance.sheepList.Remove(gameObject);
+        Destroy(gameObject);
 
-        if(instance.count < instance.finishList.Count) {
+        if(instance.count < instance.finishList.Count && gameObject.name == "Reader") {
             instance.SetReader();
         } else {
-            print("success");
+            print("성공");
+            UIManager.instance.ScoreUp();
             SceneManager.LoadScene(0);
         }
     }
 
     public static void Fail() {
-        print("fail");
+        print("실패");
+        PlayerPrefs.SetInt("score", 0);
         SceneManager.LoadScene(0);
     }
 }
