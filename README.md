@@ -6,4 +6,4 @@
 
 - unity 2022.2.0f1
 - visual studio code
-- medibang paint pro
+- aseprite
