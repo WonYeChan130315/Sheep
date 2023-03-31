@@ -3,39 +3,50 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
+    public float delay;
     public float walkSpeed;
+    public float slidingTime;
 
     private Vector3 mousePos;
     private Rigidbody2D rb;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
+        delay = slidingTime;
     }
 
-    private void Start() {
-        PosSet();
-    }
-
-    private void FixedUpdate() {
+    private void Update() {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
         
-        Movement();
-    }
+        if(delay < slidingTime) {
+            delay += Time.deltaTime;
+        }
 
-    private void Movement() {
         if(Input.GetMouseButton(0) && Vector2.Distance(transform.position, mousePos) > 0.6f) {
-            Vector2 dirVec = mousePos - transform.position;
-            Vector2 nextVec = dirVec.normalized * walkSpeed * Time.fixedDeltaTime;
+            Movement();
 
-            float angle = Mathf.Atan2(dirVec.y, dirVec.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
-            rb.SetRotation(Quaternion.Lerp(transform.rotation, rotation, 0.5f));
-
-            rb.MovePosition(rb.position + nextVec);
+            if(Input.GetButton("Jump") && delay >= slidingTime) {
+                delay = 0;
+                StartCoroutine(Sliding());
+            }
         }
     }
 
-    private void PosSet() {
-        transform.position = TileGenerator.instance.finish.transform.position;
+    private void Movement() {
+        Vector2 dirVec = mousePos - transform.position;
+        Vector2 nextVec = dirVec.normalized * walkSpeed * Time.fixedDeltaTime;
+
+        float angle = Mathf.Atan2(nextVec.y, nextVec.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+        rb.SetRotation(rotation);
+
+        rb.MovePosition(rb.position + nextVec);
+    }
+
+    IEnumerator Sliding() {
+        walkSpeed *= 2;
+        yield return new WaitForSeconds(0.3f);
+        walkSpeed /= 2;
     }
 }

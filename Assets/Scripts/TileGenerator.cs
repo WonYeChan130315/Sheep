@@ -9,7 +9,7 @@ public class TileGenerator : MonoBehaviour
 
     public Tilemap tilemap, fenceTilemap;
     public TileBase flower, grass, fence;
-    public GameObject finish;
+    public GameObject finish, player;
     public Transform pointGroup;
     public int width, height;
     public int deleteWidth, deleteHeight;
@@ -105,6 +105,7 @@ public class TileGenerator : MonoBehaviour
     private void FinishSet() {
         int rand = Random.Range(0, points.Length);
         finish.transform.position = points[rand].position;
+        player.transform.position = points[rand].position;
     }
 }
  

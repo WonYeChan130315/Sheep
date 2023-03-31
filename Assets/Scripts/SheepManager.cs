@@ -7,21 +7,22 @@ public class SheepManager : MonoBehaviour
     public static SheepManager instance;
 
     public List<GameObject> sheepList;
-    public List<bool> finishList;
+    public bool[] finishList;
 
     public Transform sheepGroup;
     public GameObject sheep;
     public GameObject reader;
     public int sheepCount;
-    [HideInInspector] public int count;
+    public int count;
 
     private void Awake() {
         instance = this;
+        sheepCount = Random.Range(4, 7);
         
+        finishList = new bool[sheepCount];
         for(int j = 0; j < sheepCount; j++) {
             GameObject clone = Instantiate(sheep, sheepGroup);
             sheepList.Add(clone);
-            finishList.Add(false);
         }
 
         SetReader();
@@ -33,26 +34,29 @@ public class SheepManager : MonoBehaviour
         reader = sheepList[rand];
         reader.GetComponent<Rigidbody2D>().mass = 10;
     }
-
-    public static void Finish(GameObject gameObject) {
-        instance.finishList[instance.count] = true;
-        instance.count++;
+ 
+    public void Finish(GameObject gameObject) {
+        finishList[count] = true;
+        count++;
+        UIManager.instance.count++;
         
-        instance.sheepList.Remove(gameObject);
+        sheepList.Remove(gameObject);
         Destroy(gameObject);
 
-        if(instance.count < instance.finishList.Count && gameObject.name == "Reader") {
-            instance.SetReader();
-        } else {
-            print("성공");
-            UIManager.instance.ScoreUp();
-            SceneManager.LoadScene(0);
+        if(count < finishList.Length && gameObject.name == "Reader") {
+            SetReader();
+        } else if(count == finishList.Length) {
+            Success();
         }
     }
 
-    public static void Fail() {
-        print("실패");
+    public void Fail() {
         PlayerPrefs.SetInt("score", 0);
+        SceneManager.LoadScene(0);
+    }
+
+    private void Success() {
+        UIManager.instance.ScoreUp();
         SceneManager.LoadScene(0);
     }
 }

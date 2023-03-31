@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,23 +5,40 @@ public class UIManager : MonoBehaviour
 {
     static public UIManager instance;
 
-    public Text scoreText;
+    public Text scoreText, countText, slidingText;
+    public Player player;
     public GameObject startGroup, gameObjectGroup;
-    public int score;
-    public int maxScore;
+    public int score, maxScore;
+    [HideInInspector] public int count;
+
+    private int maxCount;
+    private float timer;
 
     private void Awake() {
         startGroup.SetActive(true);
         gameObjectGroup.SetActive(true);
         Time.timeScale = 0;
+
         instance = this;
 
         score = PlayerPrefs.GetInt("score");
         maxScore = PlayerPrefs.GetInt("maxScore");
     }
 
+    private void Start() {
+        maxCount = SheepManager.instance.sheepCount;
+    }
+
     private void Update() {
         scoreText.text = score.ToString();
+        countText.text = maxCount + " / " + count;
+        slidingText.text = string.Format("{0:0.0}s", player.delay);
+
+        if(player.delay >= player.slidingTime) {
+            slidingText.color = Color.white;
+        } else {
+            slidingText.color = Color.gray;
+        }
     }
 
     public void GameStart() {

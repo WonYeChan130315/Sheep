@@ -62,13 +62,13 @@ public class Sheep : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other) {
         if(other.CompareTag("Finish")) { 
-            SheepManager.Finish(gameObject);
+            SheepManager.instance.Finish(gameObject);
         }
     }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if(other.gameObject.CompareTag("Fence") && name == "Reader") {
-            SheepManager.Fail();
+        if(other.gameObject.CompareTag("Fence")) {
+            SheepManager.instance.Fail();
         }
     }
 }
