@@ -8,16 +8,17 @@ public class Player : MonoBehaviour
     public float slidingTime;
 
     private Vector3 mousePos;
+    private Animator ac;
     private Rigidbody2D rb;
 
     private void Awake() {
         rb = GetComponent<Rigidbody2D>();
+        ac = GetComponent<Animator>();
         delay = slidingTime;
     }
 
     private void Update() {
         mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
         
         if(delay < slidingTime) {
             delay += Time.deltaTime;
@@ -25,11 +26,15 @@ public class Player : MonoBehaviour
 
         if(Input.GetMouseButton(0) && Vector2.Distance(transform.position, mousePos) > 0.6f) {
             Movement();
+            ac.SetBool("IsRun", true);
 
             if(Input.GetButton("Jump") && delay >= slidingTime) {
                 delay = 0;
+                ac.SetBool("IsRun", false);
                 StartCoroutine(Sliding());
             }
+        } else {
+            ac.SetBool("IsRun", false);
         }
     }
 
@@ -38,7 +43,7 @@ public class Player : MonoBehaviour
         Vector2 nextVec = dirVec.normalized * walkSpeed * Time.fixedDeltaTime;
 
         float angle = Mathf.Atan2(nextVec.y, nextVec.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.AngleAxis(angle - 90, Vector3.forward);
+        Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
         rb.SetRotation(rotation);
 
         rb.MovePosition(rb.position + nextVec);
