@@ -7,8 +7,9 @@ public class TileGenerator : MonoBehaviour
 
     public static TileGenerator instance;
 
-    public Tilemap tilemap, fenceTilemap;
-    public TileBase flower, grass, fence;
+    public Tilemap tilemap, fenceTilemap, flowerTilemap;
+    public TileBase flower, fence;
+    public RuleTile grass;
     public GameObject finish, player;
     public Transform pointGroup;
     public int width, height;
@@ -36,6 +37,7 @@ public class TileGenerator : MonoBehaviour
                 Vector3Int setPos = new Vector3Int(x, y);
                 tilemap.SetTile(setPos, null);
                 fenceTilemap.SetTile(setPos, null);
+                flowerTilemap.SetTile(setPos, null);
             }
         }
     }
@@ -71,7 +73,7 @@ public class TileGenerator : MonoBehaviour
                     lastRand = rand;
 
                     Vector3Int setPos = new Vector3Int(rand, y);
-                    tilemap.SetTile(setPos, flower);
+                    flowerTilemap.SetTile(setPos, flower);
                 } else {
                     rand = Random.Range(0, width);
                 }
@@ -88,14 +90,15 @@ public class TileGenerator : MonoBehaviour
 
             float setPosX = 0;
             float setPosY = 0;
+            float scale = 5;
 
             char nameStart = pointName[0];
-            if(nameStart.ToString() == "R") setPosX += pos.x - finishScale.x;
-            else if(nameStart.ToString() == "L") setPosX -= pos.x - finishScale.x;
+            if(nameStart.ToString() == "R") setPosX += pos.x - scale;
+            else if(nameStart.ToString() == "L") setPosX -= pos.x - scale;
 
             char nameEnd = pointName[1];
-            if(nameEnd.ToString() == "U") setPosY += pos.y - finishScale.y;
-            else if(nameEnd.ToString() == "D") setPosY -= pos.y - finishScale.y;
+            if(nameEnd.ToString() == "U") setPosY += pos.y - scale;
+            else if(nameEnd.ToString() == "D") setPosY -= pos.y - scale;
 
             Vector3 setPos = new Vector3(setPosX, setPosY);
             points[i].transform.position = setPos;

@@ -17,7 +17,7 @@ public class SheepManager : MonoBehaviour
 
     private void Awake() {
         instance = this;
-        sheepCount = Random.Range(4, 7);
+        sheepCount = Random.Range(4, 6);
         
         finishList = new bool[sheepCount];
         for(int j = 0; j < sheepCount; j++) {
@@ -52,11 +52,13 @@ public class SheepManager : MonoBehaviour
 
     public void Fail() {
         PlayerPrefs.SetInt("score", 0);
+        PlayerPrefs.SetInt("success", 0);
         SceneManager.LoadScene(0);
     }
 
     private void Success() {
         UIManager.instance.ScoreUp();
+        PlayerPrefs.SetInt("success", 1);
         SceneManager.LoadScene(0);
     }
 }

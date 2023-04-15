@@ -13,12 +13,10 @@ public class Sheep : MonoBehaviour
     }
 
     private void Start() {
-        StartCoroutine("Rotation");
+        player = GameObject.Find("Player");
     }
 
     private void FixedUpdate() {
-        player = GameObject.Find("Player");
-
         if(name == "Reader") {
             Movement(player.transform, false);
         } else {
@@ -32,19 +30,6 @@ public class Sheep : MonoBehaviour
         }
     }
 
-    IEnumerator Rotation() {
-        while(true) {
-            int rand = Random.Range(0, 2);
-            if(rand != 0) {
-                if(rand == 1) {
-                    rb.MoveRotation(rb.rotation + 90);
-                } else if(rand == 2) {
-                    rb.SetRotation(rb.rotation - 90);
-                }
-            }
-            yield return new WaitForSeconds(6);
-        }
-    }
 
     private void Movement(Transform target, bool front) {
         Vector2 dirVec;
@@ -54,7 +39,7 @@ public class Sheep : MonoBehaviour
         Vector2 nextVec = dirVec.normalized * walkSpeed * Time.fixedDeltaTime;
 
         float angle = Mathf.Atan2(dirVec.y, dirVec.x) * Mathf.Rad2Deg;
-        rb.SetRotation(Quaternion.AngleAxis(angle - 90, Vector3.forward));
+        rb.SetRotation(Quaternion.AngleAxis(angle + 90, Vector3.forward));
 
         rb.MovePosition(rb.position + nextVec);
         rb.velocity = Vector2.zero;
