@@ -5,8 +5,9 @@ public class UIManager : MonoBehaviour
 {
     static public UIManager instance;
 
-    public Text scoreText, countText, slidingText;
+    public Text scoreText, maxScoreText, countText, slidingText;
     public Player player;
+    public Color color;
     public GameObject startGroup, gameObjectGroup;
     public int score, maxScore;
     [HideInInspector] public int count;
@@ -31,11 +32,12 @@ public class UIManager : MonoBehaviour
 
     private void Update() {
         scoreText.text = score.ToString();
+        maxScoreText.text = maxScore.ToString();
         countText.text = maxCount + " / " + count;
         slidingText.text = string.Format("{0:0.0}s", player.delay);
 
         if(player.delay >= player.slidingTime) {
-            slidingText.color = Color.white;
+            slidingText.color = color;
         } else {
             slidingText.color = Color.gray;
         }
@@ -44,6 +46,14 @@ public class UIManager : MonoBehaviour
     public void GameStart() {
         startGroup.SetActive(false);
         Time.timeScale = 1;
+    }
+
+    public void Quit() {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     public void ScoreUp() {

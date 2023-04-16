@@ -52,13 +52,11 @@ public class SheepManager : MonoBehaviour
 
     public void Fail() {
         PlayerPrefs.SetInt("score", 0);
-        PlayerPrefs.SetInt("success", 0);
         SceneManager.LoadScene(0);
     }
 
     private void Success() {
         UIManager.instance.ScoreUp();
-        PlayerPrefs.SetInt("success", 1);
         SceneManager.LoadScene(0);
     }
 }
