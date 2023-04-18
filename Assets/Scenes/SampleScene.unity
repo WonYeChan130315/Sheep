@@ -535,14 +535,8 @@ MonoBehaviour:
   maxScoreText: {fileID: 711648652}
   countText: {fileID: 2125617187}
   player: {fileID: 1070960320}
-  color: {r: 0.17254902, g: 0.7647059, b: 0.99215686, a: 1}
   startGroup: {fileID: 2133824847}
-  gameObjectGroup: {fileID: 568674316}
-  countTxt: {fileID: 2125617185}
-  scoreTxt: {fileID: 1764788556}
-  maxScoreTxt: {fileID: 711648650}
-  joystick: {fileID: 3881087803082679835}
-  sliding: {fileID: 997475012}
+  uiObject: []
   score: 0
   maxScore: 0
   count: 0
@@ -53225,11 +53219,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3828c86e2ae5f4525862d12761f676c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0
+  jumpDelay: 0
   walkSpeed: 29
-  slidingTime: 2
-  joy: {fileID: 3881087803424807008}
-  joyTransform: {fileID: 3881087803082679834}
+  joystickRect: {fileID: 3881087803082679834}
+  joystickHandleRect: {fileID: 3881087803424807008}
+  jumpTime: 0
 --- !u!50 &1070960321
 Rigidbody2D:
   serializedVersion: 4
@@ -53515,13 +53509,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92bfea35cd1934a67ab8646767657114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sheepList: []
-  finishList: 
   sheepGroup: {fileID: 741216213}
   sheep: {fileID: 1021630537966638541, guid: 3572640e6951e4f8394812b0a1440bbd, type: 3}
   reader: {fileID: 0}
-  sheepCount: 0
+  sheepList: []
+  finishList: 
   count: 0
+  sheepCount: 0
 --- !u!1 &1216434462
 GameObject:
   m_ObjectHideFlags: 0

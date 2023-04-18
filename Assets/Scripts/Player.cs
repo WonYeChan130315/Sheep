@@ -3,52 +3,53 @@ using System.Collections;
 
 public class Player : MonoBehaviour
 {
-    public float delay;
+    public float jumpDelay;
     public float walkSpeed;
-    public float slidingTime;
-    public RectTransform joy;
-    public RectTransform joyTransform;
+    public RectTransform joystickRect;
+    public RectTransform joystickHandleRect;
 
-    private Animator ac;
-    private Rigidbody2D rb;
+    [HideInInspector] public float jumpTime;
+
+    private Animator animator;
+    private Rigidbody2D rigidbody;
 
     private void Awake() {
-        rb = GetComponent<Rigidbody2D>();
-        ac = GetComponent<Animator>();
-        delay = slidingTime;
+        rigidbody = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        jumpTime = jumpDelay;
     }
 
     private void Update() {
-        if(delay < slidingTime) {
-            delay += Time.deltaTime;
+        if(jumpTime < jumpDelay) {
+            jumpTime += Time.deltaTime;
         }
 
-        if(joy.anchoredPosition != Vector2.zero) {
-            Vector2 dirVec = joy.anchoredPosition - joyTransform.anchoredPosition;
-            Vector2 nextVec = dirVec.normalized * walkSpeed * Time.deltaTime * 30;
+        if(joystickHandleRect.anchoredPosition != Vector2.zero) {
+            Vector2 direction = joystickHandleRect.anchoredPosition - joystickRect.anchoredPosition;
 
-            float angle = Mathf.Atan2(nextVec.y, nextVec.x) * Mathf.Rad2Deg;
-            Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
-            rb.SetRotation(rotation);
-            rb.MovePosition(rb.position + nextVec);
+            Vector2 moveVec = direction * walkSpeed * Time.deltaTime;
+            rigidbody.MovePosition(rigidbody.position + moveVec);
 
-            ac.SetBool("IsRun", true);
+            if(moveVec.sqrMagnitude == 0)
+                return;
 
-            if(Input.GetButtonDown("Jump")) {
-                Jump();
-            }
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            rigidbody.MoveRotation(Quaternion.Euler(new Vector3(0, 0, angle)));
+
+            animator.SetBool("IsRun", true);
         } else {
-            ac.SetBool("IsRun", false);
+            animator.SetBool("IsRun", false);
         }
     }
 
     public void Jump() {
-        if(!ac.GetBool("IsRun") || delay < slidingTime)
+        if(!animator.GetBool("IsRun") || jumpTime < jumpDelay)
             return;
 
-        ac.SetBool("IsRun", false);
+        animator.SetBool("IsRun", false);
         StartCoroutine("Sliding");
-        delay = 0;
+        
+        jumpTime = 0;
     }
 
     IEnumerator Sliding() {

@@ -7,32 +7,27 @@ public class UIManager : MonoBehaviour
 
     public Text scoreText, maxScoreText, countText;
     public Player player;
-    public Color color;
-    public GameObject startGroup, gameObjectGroup, countTxt, scoreTxt, maxScoreTxt, joystick, sliding;
+    public GameObject startGroup;
+    public GameObject[] UIObject;
     public int score, maxScore;
+
     [HideInInspector] public int count;
 
     private int maxCount;
     private float timer;
 
-    private void Awake() {
+    public void Init() {
         startGroup.SetActive(true);
-        gameObjectGroup.SetActive(true);
-        countTxt.SetActive(false);
-        scoreTxt.SetActive(false);
-        maxScoreTxt.SetActive(false);
-        joystick.SetActive(false);
-        sliding.SetActive(false);
-        Time.timeScale = 0;
+        for(int i = 0; i < UIObject.Length; i++) {
+            UIObject[i].SetActive(false);
+        }
 
         instance = this;
+        Time.timeScale = 0;
+        maxCount = SheepManager.instance.sheepCount;
 
         score = PlayerPrefs.GetInt("score");
         maxScore = PlayerPrefs.GetInt("maxScore");
-    }
-
-    private void Start() {
-        maxCount = SheepManager.instance.sheepCount;
     }
 
     private void Update() {
@@ -43,11 +38,10 @@ public class UIManager : MonoBehaviour
 
     public void GameStart() {
         startGroup.SetActive(false);
-        countTxt.SetActive(true);
-        scoreTxt.SetActive(true);
-        maxScoreTxt.SetActive(true);
-        joystick.SetActive(true);
-        sliding.SetActive(true);
+        for(int i = 0; i < UIObject.Length; i++) {
+            UIObject[i].SetActive(true);
+        }
+
         Time.timeScale = 1;
     }
 
@@ -63,9 +57,7 @@ public class UIManager : MonoBehaviour
         score++;
         PlayerPrefs.SetInt("score", score);
 
-        if(score > maxScore)
-            maxScore = score;
-
-        PlayerPrefs.SetInt("maxScore", maxScore);
+        maxScore = Mathf.Max(score, maxCount);
+        PlayerPrefs.SetInt("maxScore", maxCount);
     }
 }
