@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     public Text scoreText, maxScoreText, countText;
     public Player player;
     public Color color;
-    public GameObject startGroup, gameObjectGroup;
+    public GameObject startGroup, gameObjectGroup, countTxt, scoreTxt, maxScoreTxt, joystick, sliding;
     public int score, maxScore;
     [HideInInspector] public int count;
 
@@ -18,6 +18,11 @@ public class UIManager : MonoBehaviour
     private void Awake() {
         startGroup.SetActive(true);
         gameObjectGroup.SetActive(true);
+        countTxt.SetActive(false);
+        scoreTxt.SetActive(false);
+        maxScoreTxt.SetActive(false);
+        joystick.SetActive(false);
+        sliding.SetActive(false);
         Time.timeScale = 0;
 
         instance = this;
@@ -38,6 +43,11 @@ public class UIManager : MonoBehaviour
 
     public void GameStart() {
         startGroup.SetActive(false);
+        countTxt.SetActive(true);
+        scoreTxt.SetActive(true);
+        maxScoreTxt.SetActive(true);
+        joystick.SetActive(true);
+        sliding.SetActive(true);
         Time.timeScale = 1;
     }
 

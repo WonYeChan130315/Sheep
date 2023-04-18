@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
 
         if(joy.anchoredPosition != Vector2.zero) {
             Vector2 dirVec = joy.anchoredPosition - joyTransform.anchoredPosition;
-            Vector2 nextVec = dirVec.normalized * walkSpeed * Time.deltaTime;
+            Vector2 nextVec = dirVec.normalized * walkSpeed * Time.deltaTime * 30;
 
             float angle = Mathf.Atan2(nextVec.y, nextVec.x) * Mathf.Rad2Deg;
             Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
@@ -33,9 +33,22 @@ public class Player : MonoBehaviour
             rb.MovePosition(rb.position + nextVec);
 
             ac.SetBool("IsRun", true);
+
+            if(Input.GetButtonDown("Jump")) {
+                Jump();
+            }
         } else {
             ac.SetBool("IsRun", false);
         }
+    }
+
+    public void Jump() {
+        if(!ac.GetBool("IsRun") || delay < slidingTime)
+            return;
+
+        ac.SetBool("IsRun", false);
+        StartCoroutine("Sliding");
+        delay = 0;
     }
 
     IEnumerator Sliding() {
