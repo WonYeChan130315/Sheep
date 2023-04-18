@@ -25,16 +25,14 @@ public class Player : MonoBehaviour
         }
 
         if(joystickHandleRect.anchoredPosition != Vector2.zero) {
-            Vector2 direction = joystickHandleRect.anchoredPosition - joystickRect.anchoredPosition;
+            Vector2 dirVec = joystickHandleRect.anchoredPosition - joystickRect.anchoredPosition;
+            Vector2 nextVec = dirVec.normalized * walkSpeed * Time.deltaTime;
 
-            Vector2 moveVec = direction * walkSpeed * Time.deltaTime;
-            rigidbody.MovePosition(rigidbody.position + moveVec);
-
-            if(moveVec.sqrMagnitude == 0)
-                return;
-
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-            rigidbody.MoveRotation(Quaternion.Euler(new Vector3(0, 0, angle)));
+            float angle = Mathf.Atan2(nextVec.y, nextVec.x) * Mathf.Rad2Deg;
+            Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
+            
+            rigidbody.SetRotation(rotation);
+            rigidbody.MovePosition(rigidbody.position + nextVec);
 
             animator.SetBool("IsRun", true);
         } else {
@@ -48,7 +46,7 @@ public class Player : MonoBehaviour
 
         animator.SetBool("IsRun", false);
         StartCoroutine("Sliding");
-        
+
         jumpTime = 0;
     }
 

@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class Sheep : MonoBehaviour
 {
@@ -36,7 +35,7 @@ public class Sheep : MonoBehaviour
         if(front) dirVec = target.position - transform.position;
         else dirVec = transform.position - target.position;
 
-        Vector2 nextVec = dirVec.normalized * walkSpeed * Time.deltaTime * 30;
+        Vector2 nextVec = dirVec.normalized * walkSpeed * Time.deltaTime;
 
         float angle = Mathf.Atan2(dirVec.y, dirVec.x) * Mathf.Rad2Deg;
         rb.SetRotation(Quaternion.AngleAxis(angle + 90, Vector3.forward));

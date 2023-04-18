@@ -16,13 +16,16 @@ public class UIManager : MonoBehaviour
     private int maxCount;
     private float timer;
 
+    private void Awake() {
+        instance = this;
+    }
+
     public void Init() {
         startGroup.SetActive(true);
         for(int i = 0; i < UIObject.Length; i++) {
             UIObject[i].SetActive(false);
         }
-
-        instance = this;
+        
         Time.timeScale = 0;
         maxCount = SheepManager.instance.sheepCount;
 
@@ -50,6 +53,7 @@ public class UIManager : MonoBehaviour
             UnityEditor.EditorApplication.isPlaying = false;
         #else
             Application.Quit();
+            PlayerPrefs.SetInt("score", 0);
         #endif
     }
 
