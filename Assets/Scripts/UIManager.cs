@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
 
     public Text scoreText, maxScoreText, countText;
     public Player player;
+    public Image outline;
     public GameObject startGroup;
     public GameObject[] UIObject;
     public int score, maxScore;
@@ -37,6 +38,7 @@ public class UIManager : MonoBehaviour
         scoreText.text = score.ToString();
         maxScoreText.text = maxScore.ToString();
         countText.text = maxCount + " / " + count;
+        outline.fillAmount = (player.jumpTime / player.jumpDelay * 100) / 100;
     }
 
     public void GameStart() {

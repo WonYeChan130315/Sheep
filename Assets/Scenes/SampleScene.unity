@@ -535,6 +535,7 @@ MonoBehaviour:
   maxScoreText: {fileID: 711648652}
   countText: {fileID: 2125617187}
   player: {fileID: 1070960320}
+  outline: {fileID: 1347151547}
   startGroup: {fileID: 2133824847}
   UIObject:
   - {fileID: 1764788556}
@@ -53063,7 +53064,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: -53, y: 72}
-  m_SizeDelta: {x: 240, y: 240}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 1, y: 0}
 --- !u!114 &997475014
 MonoBehaviour:
@@ -53078,7 +53079,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.21226418, g: 0.7055723, b: 1, a: 1}
+  m_Color: {r: 0.21226418, g: 0.7055723, b: 1, a: 0.6509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -53086,7 +53087,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: c651691c5d85e4398bd7ac6b03b59598, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -53224,8 +53225,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3828c86e2ae5f4525862d12761f676c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpDelay: 0
-  walkSpeed: 900
+  jumpDelay: 3
+  walkSpeed: 30
   joystickRect: {fileID: 3881087803082679834}
   joystickHandleRect: {fileID: 3881087803424807008}
   jumpTime: 0
@@ -53557,7 +53558,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 240, y: 240}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1216434464
 MonoBehaviour:
@@ -53572,7 +53573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.24154504, g: 0.63165855, b: 0.8679245, a: 1}
+  m_Color: {r: 0.18609823, g: 0.55189186, b: 0.7735849, a: 0.6509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -53633,7 +53634,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 240, y: 240}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1347151547
 MonoBehaviour:
@@ -53648,7 +53649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5271004, g: 0.80580354, b: 0.9716981, a: 1}
+  m_Color: {r: 0.35292807, g: 0.7383024, b: 0.9716981, a: 0.6509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -58031,7 +58032,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 53, y: 72}
-  m_SizeDelta: {x: 240, y: 240}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &3881087803082679835
 GameObject:
@@ -58125,10 +58126,10 @@ RectTransform:
   m_Father: {fileID: 3881087803082679834}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 120.00001, y: 120.00004}
-  m_SizeDelta: {x: 240, y: 240}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3881087803352332898
 GameObject:
@@ -58174,7 +58175,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 140, y: 140}
+  m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3881087803424807009
 GameObject:

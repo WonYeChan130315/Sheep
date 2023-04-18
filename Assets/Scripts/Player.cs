@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     public RectTransform joystickRect;
     public RectTransform joystickHandleRect;
 
-    [HideInInspector] public float jumpTime;
+    public float jumpTime;
 
     private Animator animator;
     private Rigidbody2D rigidbody;
@@ -30,11 +30,14 @@ public class Player : MonoBehaviour
 
             float angle = Mathf.Atan2(nextVec.y, nextVec.x) * Mathf.Rad2Deg;
             Quaternion rotation = Quaternion.AngleAxis(angle + 90, Vector3.forward);
-            
+
             rigidbody.SetRotation(rotation);
             rigidbody.MovePosition(rigidbody.position + nextVec);
 
             animator.SetBool("IsRun", true);
+
+            if(Input.GetButtonDown("Jump"))
+                Jump();
         } else {
             animator.SetBool("IsRun", false);
         }
