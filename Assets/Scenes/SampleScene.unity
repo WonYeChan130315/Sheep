@@ -536,10 +536,10 @@ MonoBehaviour:
   countText: {fileID: 2125617187}
   player: {fileID: 1070960320}
   outline: {fileID: 1347151547}
+  scoreTxt: {fileID: 1764788556}
+  maxScoreTxt: {fileID: 711648650}
   startGroup: {fileID: 2133824847}
   UIObject:
-  - {fileID: 1764788556}
-  - {fileID: 711648650}
   - {fileID: 2125617185}
   - {fileID: 3881087803082679835}
   - {fileID: 997475012}

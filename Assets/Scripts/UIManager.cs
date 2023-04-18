@@ -8,6 +8,8 @@ public class UIManager : MonoBehaviour
     public Text scoreText, maxScoreText, countText;
     public Player player;
     public Image outline;
+    public GameObject scoreTxt;
+    public GameObject maxScoreTxt;
     public GameObject startGroup;
     public GameObject[] UIObject;
     public int score, maxScore;
@@ -23,6 +25,8 @@ public class UIManager : MonoBehaviour
 
     public void Init() {
         startGroup.SetActive(true);
+        scoreTxt.SetActive(true);
+        maxScoreTxt.SetActive(true);
         for(int i = 0; i < UIObject.Length; i++) {
             UIObject[i].SetActive(false);
         }
@@ -43,6 +47,8 @@ public class UIManager : MonoBehaviour
 
     public void GameStart() {
         startGroup.SetActive(false);
+        scoreTxt.SetActive(true);
+        maxScoreTxt.SetActive(true);
         for(int i = 0; i < UIObject.Length; i++) {
             UIObject[i].SetActive(true);
         }
